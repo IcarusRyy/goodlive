@@ -11,6 +11,7 @@ module.exports = merge(common, {
   mode: 'development',
   output: {
     filename: '[name].js',
+    // publicPath: 'http://localhost:4000/',
     path: path.resolve(__dirname, '../build'),
   },
   // 指定target为 web
