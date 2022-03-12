@@ -1,5 +1,15 @@
 import React from 'react'
-import { ToDo } from '..'
+
+const ToDo = ({ onClick, completed, text }) => (
+  <li
+    onClick={onClick}
+    style={{
+      textDecoration: completed ? 'line-through' : 'none',
+    }}
+  >
+    {text}
+  </li>
+)
 const TodoListComponent = ({ todos, onTodoClick }) => (
   <ul>
     {todos.map((todo) => (
