@@ -1,6 +1,6 @@
-import TodoList from '@/pages/todo-list'
-import About from '../../src/pages/about'
-import Haha from '../../src/pages/haha'
+import TodoList from '../../../src/pages/test/todo-list'
+import About from '../../../src/pages/test/about'
+import Haha from '../../../src/pages/test/haha'
 const routes = [
   {
     key: 'about',
