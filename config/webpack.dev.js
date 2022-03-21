@@ -96,6 +96,7 @@ module.exports = merge(common, {
     }),
     // webpack 构建过程中使用ESLint 进行代码规范校验
     new ESLintPlugin({
+      emitError: true,
       extensions: ['js', 'jsx', 'ts', 'tsx'],
     }),
   ],
@@ -105,5 +106,17 @@ module.exports = merge(common, {
     historyApiFallback: true,
     port: 4000,
     hot: true,
+    static: path.join(__dirname, '../build'),
+    // overlay: {
+    //   warnings: false,
+    //   errors: true,
+    // },
+    // 当出现编译错误或警告时，在浏览器中显示全屏覆盖。
+    client: {
+      overlay: {
+        warnings: false,
+        errors: true,
+      },
+    },
   },
 })

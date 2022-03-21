@@ -23,9 +23,9 @@ interface InitialData {
 }
 
 const MINIMAP_MARGIN = 20
-const MINIMAP_TOP = 55 // map固定定位时top值
+const MINIMAP_TOP = 110 // minimap粘性定位时top值
 const MINIMAP_WIDTH = 100
-const HEADER_HEIGHT = 237.65625
+const HEADER_HEIGHT = 110
 const BODY_PADDING = 100 // body设置了下padding 计算时不可忽略
 const WRAPPER_PADDING = 5
 
@@ -44,7 +44,7 @@ const MiniMap: FC<MinimapProps> = (props) => {
   const { content, logNode } = props
   const [show, setShow] = useState<boolean>(false)
   const [isMouseDown, setIsMouseDown] = useState<boolean>(false)
-
+  const [isScroll, setIscroll] = useState<boolean>(false)
   const minimap = useRef<HTMLDivElement>(null)
   const initialData = useRef<InitialData>({} as InitialData)
   const slider = useRef<HTMLDivElement>(null)
@@ -52,143 +52,106 @@ const MiniMap: FC<MinimapProps> = (props) => {
   const mouseY = useRef<number>(0) // 记录鼠标在minimap点击坐标
 
   const initMap = () => {
-    if (minimap.current && logContent.current && initialData.current && slider.current) {
-      window.scrollTo(0, 0)
+    // window.scrollTo(0, 0)
 
-      // Element.getBoundingClientRect() 方法返回元素的大小及其相对于视口的位置
-      const logRect = logNode.getBoundingClientRect()
-      // console.log(logRect, 'logRect')
-      // console.log('content', content)
-      // console.log(window.innerWidth, 'innerWidth')
-      // console.log(logRect.right, 'logRect.right')
-      // console.log(logRect.height, 'logRect.height')
-      // console.log(minimap.current?.clientWidth, 'minimap.currrent')
-      // minimap到屏幕右边的距离，随屏幕大小变化
-      // const mapRight =
-      //   //   // 只读的 Window 属性 innerWidth 返回以像素为单位的窗口的内部宽度。如果垂直滚动条存在，则这个属性将包括它的宽度。
-      //   window.innerWidth -
-      //   // dom 右边框距离 视图 左边的 距离
-      //   logRect.right
-      // // Element.clientWidth 属性表示元素的内部宽度，以像素计。该属性包括内边距 padding，但不包括边框 border、外边距 margin 和垂直滚动条（如果有的话）。
-      // minimap.current?.clientWidth -
-      // // miniMap 的 margin-right
-      // MINIMAP_MARGIN
-      // console.log(mapRight, 'mapRight')
-      // 缩放比例
-      const scale = MINIMAP_WIDTH / logRect.width
-      // 距离顶部nav的距离
-      const windowScrollToLogLen = logRect.y
+    // Element.getBoundingClientRect() 方法返回元素的大小及其相对于视口的位置
+    const logRect = logNode.getBoundingClientRect()
 
-      const a: any = document.querySelector('#root')
-      const windowScrollTotalLen = a.clientHeight - document.body.clientHeight
-      // console.log(document.querySelector('#root'), 'a')
-      // console.log(document.body, 'document.body')
-      // console.log(windowScrollTotalLen, 'windowScrollTotalLen')
-      // 对日志内容进行等比例缩放
-      logContent.current.style.transform = `scale(${scale})`
-      logContent.current.style.width = logRect.width + 'px'
-      logContent.current.style.height = logRect.height - 20 + 'px'
-      const { scrollHeight, clientHeight } = minimap.current
-      console.log(scrollHeight, 'scrollHeight', clientHeight, 'clientHeight')
-      // 先设置为fixed定位，计算出滚动所需参数
-      // changeStyle(minimap.current, {
-      //   position: 'fixed',
-      //   top: `${MINIMAP_TOP}px`,
-      //   bottom: '10px',
-      // })
-      const mapScrollLen = scrollHeight - clientHeight
-      console.log(mapScrollLen, 'aoScrollLen')
-      // const slope = mapScrollLen / (windowScrollTotalLen - windowScrollToLogLen)
-      // const intercept = -windowScrollToLogLen * slope
-      // 计算出滑动到底部时，slider距离窗口上边缘的距离
-      // eslint-disable-next-line prefer-const
-      let bottomSliderTop = 0
-      const sliderHeight = (window.innerHeight - HEADER_HEIGHT) * scale
-      console.log(window.innerHeight, 'window.innerHeight')
-      if (mapScrollLen) {
-        bottomSliderTop = minimap.current.getBoundingClientRect().bottom - sliderHeight
-      } else {
-        bottomSliderTop =
-          (logContent.current.getBoundingClientRect().height + BODY_PADDING) * scale +
-          MINIMAP_TOP +
-          WRAPPER_PADDING -
-          sliderHeight
-      }
-      const sliderSlope =
-        (bottomSliderTop - MINIMAP_TOP) / (windowScrollTotalLen - windowScrollToLogLen)
-      const sliderIntercept = MINIMAP_TOP - windowScrollToLogLen * sliderSlope
+    // 缩放比例
+    const scale = MINIMAP_WIDTH / logRect.width
+    // 对日志内容进行等比例缩放
+    logContent.current.classList.add('zoom-minimap')
 
-      // changeStyle(minimap.current, {
-      //   top: `${logRect.y}px`,
-      //   right: `${mapRight > 0 ? mapRight : 0}px`,
-      // })
-      slider.current.style.height = `${sliderHeight}px`
-      initialData.current = {
-        scale,
-        // initialTop: `${logRect.y}px`,
-        windowScrollToLogLen,
-        windowScrollTotalLen,
-        // mapScrollLen,
-        // slope,
-        // intercept,
-        sliderSlope,
-        sliderIntercept,
-      }
-      setShow(true)
+    // 距离顶部nav的距离
+    const windowScrollToLogLen = logRect.y - HEADER_HEIGHT
+    // // 页面可以滚动的长度
+    const windowScrollTotalLen =
+      document.querySelector('#root').clientHeight - document.body.clientHeight
+    // // minimap 隐藏的高度
+    const { scrollHeight, clientHeight } = minimap.current
+    const mapScrollLen = scrollHeight - clientHeight
+    //  slope = 隐藏的高度 / (文档可以滚动的长度 - 距离顶部的距离)
+    // minimap 和 页面滚动距离的比值   滚动的nav那段距离不需要 所以减去
+    const slope = mapScrollLen / windowScrollTotalLen
+    // 距离nav的距离  * 占比
+    const intercept = -windowScrollToLogLen * slope
+    // 计算出滑动到底部时，slider距离窗口上边缘的距离
+    // eslint-disable-next-line prefer-const
+    let bottomSliderTop = 0
+    // slider的高度 = (页面的高度 - Nav的高度  ) * 缩放比例
+    const sliderHeight = (window.innerHeight - HEADER_HEIGHT) * scale
+    // 如果缩小的文档 有隐藏的高度
+    if (mapScrollLen) {
+      bottomSliderTop = minimap.current.getBoundingClientRect().height - sliderHeight
+    } else {
+      bottomSliderTop = (logNode.getBoundingClientRect().height + 50) * scale - sliderHeight
     }
+    // 滑动缩放比例
+    const sliderSlope = bottomSliderTop / windowScrollTotalLen
+    //
+    // nav 高度 -
+    const sliderIntercept = MINIMAP_TOP
+    slider.current.style.height = `${sliderHeight}px`
+    initialData.current = {
+      scale,
+      // initialTop: `${logRect.y}px`,
+      windowScrollToLogLen,
+      windowScrollTotalLen,
+      mapScrollLen,
+      slope,
+      intercept,
+      sliderSlope,
+      sliderIntercept,
+    }
+    setShow(true)
+    // }
   }
   const handleMinimapScroll = () => {
-    if (minimap.current && logNode) {
-      console.log('handleMiniMapScroll')
-      console.log(window.pageYOffset, 'window.pageYOffset')
-      // const { mapScrollLen, slope, intercept } = initialData.current
-      // if (mapScrollLen === 0) return
-      // const len = window.scrollY * slope + intercept
-      // minimap.current.scrollTop = len
-    }
+    const { mapScrollLen, slope, intercept } = initialData.current
+    if (mapScrollLen === 0) return
+    const len = (window.scrollY - 100) * slope + intercept
+    minimap.current.scrollTop = len
   }
   const handleSliderScroll = () => {
-    if (slider.current && logNode && initialData.current) {
-      const { sliderIntercept, sliderSlope } = initialData.current
-      const logRect = logNode.getBoundingClientRect()
-      const scale = MINIMAP_WIDTH / logRect.width
-      slider.current.style.top = `${-logRect.y * scale}px`
-    }
+    const { sliderIntercept, sliderSlope } = initialData.current
+    slider.current.style.top = `${(window.pageYOffset - 100) * sliderSlope + sliderIntercept}px`
   }
   // 滚动事件回调函数
   const windowScroll = () => {
-    if (logNode && slider.current && minimap.current) {
+    if (logNode) {
       const logRect = logNode.getBoundingClientRect()
-      if (logRect.y <= 0) {
-        //   changeStyle(minimap.current, {
-        //     position: 'fixed',
-        //     top: `${MINIMAP_TOP}px`,
-        //     bottom: '10px',
-        //   })
-        console.log(logRect, '滚动事件')
-
-        console.log(slider.current, 'current')
+      if (logRect.y <= 110) {
+        setIscroll(true)
+        const { mapScrollLen } = initialData.current
         changeStyle(slider.current, {
           display: 'block',
           position: 'fixed',
-          top: `${0}px`,
+          top: `${110}px`,
           left: `${minimap.current.getBoundingClientRect().left}px`,
+        })
+        changeStyle(minimap.current, {
+          height: window.innerHeight - HEADER_HEIGHT + 'px',
+          position: 'sticky',
+          overflow: 'scroll',
+          // paddingTop: '5px',
+          top: '110px',
         })
         handleMinimapScroll()
         handleSliderScroll()
       } else {
-        //   changeStyle(minimap.current, {
-        //     position: 'absolute',
-        //     top: initialData.current.initialTop,
-        //     bottom: 'auto',
-        //   })
+        setIscroll(false)
         slider.current.style.display = 'none'
+        changeStyle(minimap.current, {
+          height: '',
+          position: '',
+          overflow: '',
+          top: '',
+        })
       }
     }
   }
   const handleMinimapMouseDown = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.preventDefault()
-    console.log('handleMinimapMouseDown')
     // const { windowScrollToLogLen, scale } = initialData.current
     // const { offsetY, clientY } = e.nativeEvent
     // const target = e.target as HTMLElement
@@ -207,7 +170,7 @@ const MiniMap: FC<MinimapProps> = (props) => {
   const handlePointerMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     // const { sliderIntercept, sliderSlope } = initialData.current
     const { clientY } = e.nativeEvent
-    console.log(clientY, 'clientY')
+    // console.log(clientY, 'clientY')
     if (isMouseDown && slider.current) {
       const mouseOffset = clientY - mouseY.current
       const top = slider.current.style.top.replace(/[^\d.]/g, '')
@@ -224,7 +187,25 @@ const MiniMap: FC<MinimapProps> = (props) => {
   const handleSliderDown = useCallback(() => {
     setIsMouseDown(true)
   }, [])
-
+  const logContentScroll = () => {
+    const logContentRect = logContent.current.getBoundingClientRect()
+    const { scrollHeight, clientHeight } = minimap.current
+    const mapScrollLen = scrollHeight - clientHeight
+    // console.log(
+    //   mapScrollLen,
+    //   'mapScrollen',
+    //   scrollHeight,
+    //   'scrollHeight',
+    //   clientHeight,
+    //   'clientHeight',
+    // )
+    // console.log(logContentRect, 'logContentScroll')
+  }
+  useEffect(() => {
+    // 监听logContent滚动事件
+    minimap.current.addEventListener('scroll', logContentScroll)
+    return minimap.current.addEventListener('scroll', logContentScroll)
+  }, [minimap.current])
   useEffect(() => {
     // 监听滚动事件
     window.addEventListener('scroll', windowScroll)
@@ -236,18 +217,17 @@ const MiniMap: FC<MinimapProps> = (props) => {
     }
   }, [logNode])
   useEffect(() => {
-    if (content && logNode && content.replace(/<pre class="console-output">|<\/pre>/g, '')) {
+    if (logNode && content.replace(/<pre class="console-output">|<\/pre>/g, '')) {
       initMap()
     }
-    // console.log('content', content.replace(/<pre class="console-output">|<\/pre>/g, ''))
-    console.log('logNode', logNode)
-  }, [content, logNode, minimap])
+  }, [content, logNode, minimap, isScroll])
   return (
     <>
       <div
         onMouseDown={handleMinimapMouseDown}
         onMouseMove={handlePointerMove}
-        className={classNames('log-minimap', { show: show })}
+        // className={classNames('log-minimap', { show: show })}
+        className={classNames('log-minimap')}
         ref={minimap}
       >
         <div

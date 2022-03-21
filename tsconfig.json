@@ -1,34 +1,57 @@
+// {
+//   "compilerOptions": {
+//     "module": "esnext",
+//     "target": "esnext",
+//     "lib": ["esnext", "dom"],
+//     "baseUrl": ".",
+//     "jsx": "react-jsx",
+//     "resolveJsonModule": true,
+//     "allowSyntheticDefaultImports": true,
+//     "moduleResolution": "node",
+//     "forceConsistentCasingInFileNames": true,
+//     "noImplicitReturns": true,
+//     "suppressImplicitAnyIndexErrors": true,
+//     "noUnusedLocals": false,
+//     "allowJs": true,
+//     "skipLibCheck": true,
+//     "esModuleInterop": true,
+//     "strict": true,
+//     "noImplicitAny": false,
+//     "paths": {
+//       "@/*": ["./src/*"]
+//     },
+//     "noEmit": true
+//   },
+//   "include": [
+//     "src/**/*",
+//     "typings/**/*",
+//     "config/**/*",
+//     ".eslintrc.js",
+//     ".stylelintrc.js",
+//     ".prettierrc.js"
+//   ],
+//   "exclude": ["node_modules", "build", "dist"]
+// }
 {
   "compilerOptions": {
-    "module": "esnext",
-    "target": "esnext",
-    "lib": ["esnext", "dom"],
+    "module": "commonjs",
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es5",
+    "sourceMap": true,
+    "jsx": "react",
+    "outDir": "./build",
     "baseUrl": ".",
-    "jsx": "react-jsx",
-    "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true,
-    "moduleResolution": "node",
-    "forceConsistentCasingInFileNames": true,
-    "noImplicitReturns": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "noUnusedLocals": false,
-    "allowJs": true,
-    "skipLibCheck": true,
+    "incremental": true,
     "esModuleInterop": true,
-    "strict": true,
-    "noImplicitAny": false,
+    "moduleResolution": "node",
+    "downlevelIteration": true,
     "paths": {
+      "*": ["*"],
       "@/*": ["./src/*"]
     },
-    "noEmit": true
+    "lib": ["dom", "DOM.Iterable", "esnext"]
   },
-  "include": [
-    "src/**/*",
-    "typings/**/*",
-    "config/**/*",
-    ".eslintrc.js",
-    ".stylelintrc.js",
-    ".prettierrc.js"
-  ],
-  "exclude": ["node_modules", "build", "dist"]
+  "exclude": ["node_modules", "dist"]
 }
