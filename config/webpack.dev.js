@@ -118,5 +118,18 @@ module.exports = merge(common, {
         errors: true,
       },
     },
+    //before方法：能够在其他所以的中间件之前执行自定义的中间件
+    // before(app) {
+    //   resolveApp('src/setupProxy.js')(app)
+    // },
+    proxy: {
+      '/aps': {
+        target: 'https://bang.360.cn',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/aps': '',
+        },
+      },
+    },
   },
 })

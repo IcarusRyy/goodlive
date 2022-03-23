@@ -151,16 +151,86 @@ scr/pages 新建四个文件夹 HomePage LifeServer Shop User
   配置AppRouter文件
 3、底部导航
 src/component
-4、顶部导航
+4、iconfont
+5、顶部导航
 src/component/headnav
+6、焦点轮播图
+// 参考文档
+https://react-swipeable-views.com/
+安装依赖
+yarn add react-swipeable-views -S
+yarn add react-swipeable-views-utils -S
+7、服务器构建
+ 根目录最外层新建文件夹server
+ yarn add express -S
+ 后台解决跨域问题
+ yarn add cors -S
 
+ 跨域使用 cors 后台解决
+ 数据来源于 json文件
+8、首页请求数据列表
+  api 文件夹 定义请求方法
+  utils方法 封装axios
+  - 组件分类
+    - 智能组件：处理数据，包含获取数据、过滤数据
+    - 木偶组件：视图适配
+## 实现城市管理
+1、创建城市管理页面 并 实现路由跳转 ： City 
+2、实现路由嵌套、将共享底部导航的页面做成二级路由：Layout布局
+3、城市页面组件效果 实现 Header、currentCity、cityList
+4、集成redux： 通过它来存储城市页面，根据城市不同，UI会渲染不同的结果
+  - Store Reducers Actions
+  - 安装依赖
+  - yarn add redux -S
+  - yarn add react-redux -S
+  - yarn add redux-devtools-extension -D
+- 创建Redux流程
+- src/redux/ 创建四个文件夹 store reducers actions constants
+- 先从store开始
+- 然后创建reducers
+- 然后在constants中添加常用的字段
+- 最后定义action方法
+5、关联redux 存储城市数据
+App组件页面
+import { Provider } from 'react-redux'
+import store from './redux/stroe'
 
-
-
-
-
-
-
+<Provider store={store}></Provider>
+包裹路由组件
+7、城市列表的abcd 形式
+  - 安装依赖
+  - yarn add react-city-select -S
+安装依赖 解决跨域
+yarn add http-proxy-middleware -S
+## 实现搜索功能
+1、创建搜索页面、配置路由跳转
+  - 抽离搜索到input组件
+  - 配置路由
+  - 舰艇keyCode进行enter跳转(keyCode === 13)
+  - 路由跳转携带参数
+    - Hook实现方式，React-Router提供的useParams
+2、实现搜索网络请求的接口
+  - 后台由于数据问题，所以每次返回的都是相同的测试内容
+3、前台访问接口，获取数据
+4、关于列表数据渲染的注意事项
+  - 以前都是直接在获取列表数据直接渲染，现在需要Item去渲染每一个视图
+  - 渲染HTML结构：采用dangerouslySetInnerHTML
+5、搜索头部实现
+6、上拉加载实现
+  - 上拉加载封装组件
+  - 实现流程
+    - 监听滚动事件 -> 滚动高度 + 视口高度 >= 容器列表的高度
+    - getBoundingClientRect() 某元素相对于视窗位置的集合
+      - 动态获取元素距离顶部的距离等
+    - 上拉的时候  节流 和 防抖
+      - 防抖： 在一个期限值（时间间隔）内，如果发起多次请求，以最后一个为准
+      - 节流： 在一个期限值（时间间隔）内，只发送一次请求
+7、加载更多数据
+  - 
+8、Mock.js
+  - 模拟数据，完全随机化   http://mockjs.com/
+  - 安装mockjs 在根目录下安装
+  - yarn add mockjs -S
 
 
 

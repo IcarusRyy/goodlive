@@ -5,9 +5,4 @@ import './style/index.less'
 import './assets/css/common.less'
 import './assets/css/font.css'
 import './assets/css/iconfont.css'
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root'),
-)
+ReactDOM.render(<App />, document.getElementById('root'))

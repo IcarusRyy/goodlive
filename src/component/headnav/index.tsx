@@ -1,13 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { CarOutlined, DownOutlined, SearchOutlined } from '@ant-design/icons'
-import './index.less'
 import { Input } from 'antd'
-const HeadNav = () => {
+import { Link } from 'react-router-dom'
+
+import SearchInput from '../SearchInput'
+import './index.less'
+const HeadNav = (props) => {
   return (
     <>
       <div id="home-header" className="clear-fix">
         <div className="home-header-left float-left">
-          <span>北京</span>
+          <Link to="/city">
+            <span>{props.cityName}</span>
+          </Link>
           <DownOutlined />
 
           {/* <i className="icon-angle-down"></i> */}
@@ -21,7 +26,8 @@ const HeadNav = () => {
           <div className="search-container">
             {/* <i className="icon-search"></i> */}
             {/* <input /> */}
-            <Input placeholder="请输入" className="input-antd" />
+            {/* <Input placeholder="请输入" className="input-antd" /> */}
+            <SearchInput />
           </div>
         </div>
       </div>

@@ -34,10 +34,11 @@
   }
 
   .log-content-wrapper {
-    user-select:none;
+    user-select: none;
     transform-origin: 0 0;
     font-size: 16px;
   }
+  /* stylelint-disable-next-line no-invalid-double-slash-comments */
   // minimap 缩小的样式
   .console-output {
     margin: 0;
@@ -50,6 +51,7 @@
     font-feature-settings: "tnum";
     color: #707070;
     pointer-events: none;
+
     span {
       font-family: monospace;
       font-size: 14px;
@@ -81,14 +83,13 @@
     }
   }
 }
+/* stylelint-disable-next-line no-invalid-double-slash-comments */
 // mimimap 缩放比例
-.zoom-minimap{
+.zoom-minimap {
   zoom: 0.1;
 }
+/* stylelint-disable-next-line no-invalid-double-slash-comments */
 // 去除minimap的滚动条
 .log-minimap::-webkit-scrollbar {
-    display: none;
-  }
-// .log-minimap.show {
-//   visibility: visible;
-// }
+  display: none;
+}

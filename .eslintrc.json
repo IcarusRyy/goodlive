@@ -9,7 +9,7 @@
   "rules": {
     "no-console": ["warn", { "allow": ["warn", "error"] }],
 
-    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/rules-of-hooks": "off",
     "react-hooks/exhaustive-deps": "off",
     "react/prop-types": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
