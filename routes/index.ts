@@ -12,6 +12,19 @@ import Shop from './shop'
 import User from './user'
 import City from './city'
 import Search from './search'
-const IOuters = [...HomePage, ...LifeServer, ...Shop, ...User, ...City, ...Search]
+import Details from './details'
+import Login from './login'
+import Order from './order'
+const IOuters = [
+  ...HomePage,
+  ...LifeServer,
+  ...Shop,
+  ...User,
+  ...City,
+  ...Search,
+  ...Details,
+  ...Login,
+  ...Order,
+]
 
 export default IOuters

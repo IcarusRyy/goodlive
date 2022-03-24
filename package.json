@@ -84,6 +84,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.3",
     "http-proxy-middleware": "^2.0.4",
+    "lodash": "^4.17.21",
     "mockjs": "^1.1.0",
     "querystring": "^0.2.1",
     "react": "^17.0.2",
@@ -93,6 +94,7 @@
     "react-swipeable-views": "^0.14.0",
     "react-swipeable-views-utils": "^0.14.0",
     "redux": "^4.1.2",
-    "redux-devtools-extension": "^2.13.9"
+    "redux-devtools-extension": "^2.13.9",
+    "validator": "^13.7.0"
   }
 }

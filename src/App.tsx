@@ -31,6 +31,7 @@ import store from './redux/stroe'
 import IOuters from '../routes'
 import Layout from './component/Layout'
 // import Bdd from './pages/bdd'
+import './utils/init'
 
 const App = () => {
   return (
@@ -38,7 +39,13 @@ const App = () => {
       <Provider store={store}>
         <Router>
           <Switch>
-            {IOuters.filter((item) => item.key == 'city' || item.key === 'search').map((item) => (
+            {IOuters.filter(
+              (item) =>
+                item.key == 'city' ||
+                item.key === 'search' ||
+                item.key == 'login' ||
+                item.key == 'details',
+            ).map((item) => (
               <Route key={item.key} exact path={item.path} component={item.component}></Route>
             ))}
             <Layout path="/">
@@ -46,6 +53,7 @@ const App = () => {
                 {IOuters.filter((item) => item.path !== '/city').map((item) => (
                   <Route key={item.key} exact path={item.path} component={item.component}></Route>
                 ))}
+                <Redirect from="*" to={'/'} />
               </Switch>
               <BottomNav />
             </Layout>

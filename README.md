@@ -232,10 +232,38 @@ yarn add http-proxy-middleware -S
   - 安装mockjs 在根目录下安装
   - yarn add mockjs -S
 
+## 详情页实现
+1、创建页面、配置路由
+2、处理内存泄漏
+  - 在react中 需要注意三点：事件、定时器、网络请求容易引起内存泄漏
+  - react_devtools_backend.js:3973 Warning: Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function.
+    - 事件
+      - 在滚动事件还在监听的时候（还没有结束的时候），跳转到另外一个页面会出现内存泄漏的问题，
+      - 
+    - 定时器
+    - 网路请求
+    - 处理泄漏问题，网络请求取消，事件取消，定时器清除
+3、收藏功能
+  - 收藏功能是否允许收藏 取决于 用户是否登陆 用户登陆可以收藏 用户未登录 跳转到用户登陆页面
+  - 判定用户是否登陆
+  
+## 登陆页面
+1、功能实现
+2、验证
+  - 安装lodash yarn add lodash -S
+  - 安装validator yarn add validator -S
+  - 安装 classnames yarn add classnames -S
 
 
+## redux
+1、先在contsnts中定义action字段
+2、定义reducer函数
+  - 初始化state
+  - 定义reducer函数 通过区分action的type 返回不同的state
+  - 写入state 需要用 uesDispatch 读取state 需要用useSelector
 
-
+## 订单评价
+1、订单的页面。也包含路由的跳转功能
 
 
 

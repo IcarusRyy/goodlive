@@ -14,10 +14,13 @@
 import { combineReducers } from 'redux'
 import city from './city'
 import search from './search'
-
+import collect from './collect'
+import login from './login'
 const rootReducer = combineReducers({
   city,
   search,
+  collect,
+  login,
 })
 
 export default rootReducer

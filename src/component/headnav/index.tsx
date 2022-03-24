@@ -19,7 +19,9 @@ const HeadNav = (props) => {
         </div>
         <div className="home-header-right float-right">
           {/* <SearchOutlined /> */}
-          <CarOutlined style={{ fontSize: '24px' }} />
+          <Link to="/order">
+            <CarOutlined style={{ fontSize: '24px' }} />
+          </Link>
           {/* <i className="iconfont icon-car"></i> */}
         </div>
         <div className="home-header-middle">

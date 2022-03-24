@@ -4,8 +4,11 @@ export function loadImageAsync(url) {
     const image = new Image()
     // 将url赋值给src
     image.src = url
+    // console.log(url, 'url')
     // 监听onload 事件
     image.onload = function () {
+      // console.log(url, 'urlresolve')
+
       // 成功了 触发resolve
       resolve(url)
     }

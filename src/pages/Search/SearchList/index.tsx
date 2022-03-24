@@ -9,13 +9,14 @@ const SearchList = (props) => {
 
   useEffect(() => {
     http()
+    return () => setSearchData([])
   }, [props.search])
 
-  function loadMoreHandle() {
+  const loadMoreHandle = () => {
     http()
   }
 
-  function http() {
+  const http = () => {
     api
       .search({
         search: props.search,

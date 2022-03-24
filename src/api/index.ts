@@ -9,6 +9,11 @@ const base = {
   homehot2: '/api/home/hot2',
   cityUrl: '/aps/aj/getcitycode',
   search: '/api/search',
+  details: '/api/details',
+  login: '/api/login',
+  comment: '/api/comment',
+  comentOrder: '/api/order/comment',
+  submitComment: '/api/order/submit/comment',
 }
 
 /**
@@ -37,6 +42,43 @@ const api = {
     return axios.get(base.baseUrl + base.search, {
       params,
     })
+  },
+  /**
+   * 获取详情
+   */
+  details(params) {
+    return axios.get(base.baseUrl + base.details, {
+      params,
+    })
+  },
+  /**
+   * 登陆
+   */
+  login(params) {
+    return axios.post(base.baseUrl + base.login, params)
+  },
+  /**
+  /**
+   * 商品评价
+   */
+  comment(params) {
+    return axios.get(base.baseUrl + base.comment, {
+      params,
+    })
+  },
+  /**
+   * 评价
+   */
+  comentOrder(params) {
+    return axios.get(base.baseUrl + base.comentOrder, {
+      params,
+    })
+  },
+  /**
+   * 提交评价
+   */
+  submitComment(params) {
+    return axios.post(base.baseUrl + base.submitComment, params)
   },
 }
 
